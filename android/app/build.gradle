@@ -85,12 +85,18 @@ android {
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+            debuggable true
+            minifyEnabled false
+        }
+        
         release {
-            if (hasKeyStore) {
-                signingConfig signingConfigs.release
-            } else {
-                signingConfig signingConfigs.debug
-            }
+            // استفاده از debug signing برای build بدون امضا
+            signingConfig signingConfigs.debug
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            
             ndk {
                 //noinspection ChromeOsAbiSupport
                 abiFilters "x86_64", "armeabi-v7a", "arm64-v8a"

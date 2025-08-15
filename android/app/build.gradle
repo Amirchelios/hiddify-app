@@ -12,6 +12,7 @@ if (localPropertiesFile.exists()) {
     }
 }
 
+// Keystore configuration - using debug signing for all builds
 boolean hasKeyStore = false
 
 def keystoreProperties = new Properties()
@@ -19,15 +20,6 @@ def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
     hasKeyStore = true
-} else {
-    println "+++"
-    println "No keystore defined. The app will not be signed."
-    println "Create a android/key.properties file with the following properties:"
-    println "storePassword"
-    println "keyPassword"
-    println "keyAlias"
-    println "storeFile"
-    println "+++"
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')?: '1'
@@ -73,8 +65,13 @@ android {
         }
     }
 
-    if (hasKeyStore) {
-        signingConfigs {
+    // Always use debug signing for all builds
+    signingConfigs {
+        debug {
+            // Debug signing configuration - uses default debug keystore
+        }
+        
+        if (hasKeyStore) {
             release {
                 keyAlias keystoreProperties['keyAlias']
                 keyPassword keystoreProperties['keyPassword']
@@ -89,12 +86,15 @@ android {
             signingConfig signingConfigs.debug
             debuggable true
             minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         
         release {
             // استفاده از debug signing برای build بدون امضا
             signingConfig signingConfigs.debug
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             
             ndk {

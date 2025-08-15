@@ -56,5 +56,9 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# Local configuration files
+android/local.properties
+android/key.properties
+
 
 /data

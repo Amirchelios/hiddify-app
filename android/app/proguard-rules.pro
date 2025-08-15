@@ -32,3 +32,7 @@
 -keep class androidx.lifecycle.** { *; }
 -keep class androidx.core.** { *; }
 -keep class androidx.appcompat.** { *; }
+
+# Disable optimization for debug builds
+-dontoptimize
+-dontpreverify

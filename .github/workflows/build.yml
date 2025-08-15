@@ -30,10 +30,10 @@ jobs:
       run: flutter pub get
     
     - name: Build APK (Debug)
-      run: flutter build apk --debug --no-tree-shake-icons
+      run: flutter build apk --debug --no-tree-shake-icons --no-shrink --verbose
     
     - name: Build APK (Release - Unsigned)
-      run: flutter build apk --release --no-tree-shake-icons --no-shrink
+      run: flutter build apk --release --no-tree-shake-icons --no-shrink --verbose
     
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
